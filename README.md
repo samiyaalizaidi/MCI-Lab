@@ -1,6 +1,6 @@
 # Microcontrollers and Interfacing
 
-This repository contains all of the lab and project codes for the the course "Microcontrollers and Interfacing."
+This repository contains all of the lab and project codes for the course "Microcontrollers and Interfacing."
 
 The repository is structured as follows:
 
