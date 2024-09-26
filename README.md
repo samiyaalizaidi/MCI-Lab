@@ -7,7 +7,6 @@ The repository is structured as follows:
 ```
 MCI-Lab:.
 │   README.md
-│   tree.txt
 │   
 ├───lab_01
 │   │   README.md
