@@ -1,6 +1,6 @@
 # Microcontrollers and Interfacing
 
-This repository contains all of the lab and project codes for the course "Microcontrollers and Interfacing."
+This repository contains all of the lab and project codes for the course "Microcontrollers and Interfacing." All code provided here is for the TivaC Board, and it's either written on Keil uVision or Energia.
 
 The repository is structured as follows:
 
