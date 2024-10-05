@@ -43,11 +43,17 @@ MCI-Lab:.
 │   └───src
 │           lab4.c
 │           
-└───lab_05
-    │   README.md
-    │   
-    ├───inc
-    └───src
-            lab5.c
-
+├───lab_05
+│   │   README.md
+│   │   
+│   ├───inc
+│   └───src
+│           lab5.c
+│           
+└───lab_06
+        README.md
+        task1.c
+        task2.c
+        task3.c
+        task4.c
 ```
