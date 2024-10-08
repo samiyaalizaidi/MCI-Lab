@@ -21,10 +21,15 @@ void setup()
   //Initialize pin modes for Trig, Echo and SW2 here as INPUT/OUTPUT as per previous labs
 
   //Use this for Task01
-  pinMode(Servo_control_pin, OUTPUT);    //To produce PWM signal at PF1 pin for servo control without library
+//  pinMode(Servo_control_pin, OUTPUT);    //To produce PWM signal at PF1 pin for servo control without library
 
   //Use this for Task02/03, comment out above one
-  //myservo.attach(Servo_control_pin);   //Attaches the servo PWM pin on PF1 (30) using library
+  myservo.attach(Servo_control_pin);   //Attaches the servo PWM pin on PF1 (30) using library
+  pinMode(SW2, INPUT_PULLUP);  
+
+  Serial.begin(115200);     //Initialize Serial COM Port with 115200 buad rate
+  pinMode(Trig, OUTPUT);    //Trigger is output since it will send 8 pulses at 40KHz from HC-SR04
+  pinMode(echo, INPUT);
 } 
 
 ////////////////////////////////////////////////////
@@ -33,7 +38,7 @@ void loop()
     //Task 01: PWM Gernation using delay functions
     //Go through servo_0_Degree(), complete servo_p90_Degree() and servo_m90_Degree() logic
     
-    // /*
+     /*
     servo_0_Degree();
     delay(1000);
     servo_p90_Degree();
@@ -42,34 +47,42 @@ void loop()
     delay(1000);
     servo_m90_Degree();
     delay(1000);
-    // */
+    */
 
 
 
     //Task 02: Using <servo.h> library to control angular position and add SW2
-    /*
-      //Loop here that make servo goes from 0 degrees to 180 degrees 
-      for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
-      {                                  // in steps of 1 degree 
-        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-        delay(5);                        // waits 5ms for the servo to reach the position 
-      } 
 
-      //Write a Loop here that make servo goes from 180 degrees to 0 degrees
-
-    */
+//    if (digitalRead(SW2) == 0){
+//      delay(5);
+//    
+//      //Loop here that make servo goes from 0 degrees to 180 degrees 
+//      for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
+//      {                                  // in steps of 1 degree 
+//        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+//        delay(5);                        // waits 5ms for the servo to reach the position 
+//      } 
+//
+//      //Write a Loop here that make servo goes from 180 degrees to 0 degrees
+//
+//      for(pos = 180; pos > 0; pos -= 1)  // goes from 180 degrees to 0 degrees 
+//      {                                  // in steps of 1 degree 
+//        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+//        delay(5);                        // waits 5ms for the servo to reach the position 
+//      } 
+//      }
     
 
     
 
     //Task 03: Interfacing servo with ultrasonic sensor
-    /*
-    // Update_Ultra_Sonic(); //Update distance from ultrasonic sensor
-    // delay(500);
+    
+    Update_Ultra_Sonic(); //Update distance from ultrasonic sensor
+    delay(500);
 
     //Write your logic for task03 here, use "cm" to read distance
+
     
-    */
 } 
 
 
@@ -88,11 +101,21 @@ void servo_0_Degree(){
 void servo_p90_Degree(){
     // Rotates servo to +90 degree, total pulse duration is 20ms
     // Write your logic here for getting +90 degrees
+
+    digitalWrite(Servo_control_pin, HIGH);
+    delayMicroseconds(2000); // High for 2.0ms, Duty Cycle of 10.0%
+    digitalWrite(Servo_control_pin, LOW);
+    delayMicroseconds(18000); // Off for remaining  18.0ms
 }
 
 void servo_m90_Degree(){
     // Rotates servo to -90 degree, total pulse duration is 20ms
     // Write your logic here for getting -90 degrees
+
+    digitalWrite(Servo_control_pin, HIGH);
+    delayMicroseconds(1000); // High for 1.0ms, Duty Cycle of 5.0%
+    digitalWrite(Servo_control_pin, LOW);
+    delayMicroseconds(19000); // Off for remaining  19.0ms
 }
 
 
@@ -118,6 +141,23 @@ void Update_Ultra_Sonic()
   Serial.print(cm); 
   Serial.print(" cm");
   Serial.print("\n");
+
+  if (cm >=0 && cm < 15){
+        myservo.write(45); 
+        delay(5);
+    }
+    else if (cm >= 15 && cm < 30) {
+        myservo.write(90); 
+        delay(5);
+    }
+    else if (cm >= 30 && cm < 45) {
+        myservo.write(180); 
+        delay(5);
+    }
+    else {
+        myservo.write(0); 
+        delay(5);
+    }
 }
 
 ////////////////////////////////////////////////////
