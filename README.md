@@ -7,6 +7,7 @@ The repository is structured as follows:
 ```
 MCI-Lab:.
 │   README.md
+│   tree.txt
 │   
 ├───lab_01
 │   │   README.md
@@ -67,8 +68,11 @@ MCI-Lab:.
 │       task4.c
 │       task5.ino
 │       
-└───lab_09
-        master.ino
-        slave.ino
-        uart.c
+├───lab_09
+│       master.ino
+│       slave.ino
+│       uart.c
+│       
+└───project
+        move_motors.c
 ```
