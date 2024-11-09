@@ -22,7 +22,7 @@ int main(void)
     {
         duty_cycle = duty_cycle - 10;
         if (duty_cycle <= 0) 
-                    duty_cycle = 5000;
+            duty_cycle = 5000;
         PWM1->_3_CMPA = duty_cycle;
         Delay_ms(100);
     }
