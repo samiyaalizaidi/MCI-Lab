@@ -5,7 +5,7 @@
 | Ultrasonic 1 Trig | PA4     |
 | Ultrasonic 1 Echo | PB6     |
 | Ultrasonic 2 Trig | PA5     |
-| Ultrasonic 2 Echo | PB7     | 
+| Ultrasonic 2 Echo | PF0     | 
 | UART RXD          | PE5     |
 | UART TXD          | PE4     |
 | Motor 1 - IN 1    | PA3     |
