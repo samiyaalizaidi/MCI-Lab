@@ -14,3 +14,4 @@
 | Motor 2 - IN 4    | PA7     |
 | Motor 1 - PWM     | PF2     |
 | Motor 2 - PWM     | PF3     |
+| Infrared Sensor   | PE2     |
