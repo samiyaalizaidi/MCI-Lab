@@ -1,6 +1,9 @@
-const int encoderPin = A0;  // Analog pin for encoder
-int adcValue = 0;           // Stores ADC reading
-int mappedValue = 0;     
+const int encoderPinLeft = 29;  // Analog pin for encoder
+const int encoderPinRight = 2;
+int adcValueRight = 0;  
+int adcValueLeft = 0;
+int mappedValueRight = 0;  
+int mappedValueLeft = 0;    
 
 int enA = 40;   // ENABLE pin (PF2) for Motor A PWM -> right wheel
 int in1 = 12;   // IN1 pin (PA3) for Motor A direction -> right wheel
@@ -23,11 +26,16 @@ void setup() {
 
 void loop() {
   moveForward();
-  adcValue = analogRead(encoderPin); // Read the analog value
-  mappedValue = map(adcValue, 0, 4095, 0, 255);
+  adcValueRight = analogRead(encoderPinRight); // Read the analog value
+  adcValueLeft = analogRead(encoderPinLeft);
+  mappedValueRight = map(adcValueRight, 0, 4095, 0, 255);
+  mappedValueLeft = map(adcValueLeft, 0, 4095, 0, 255);
   
-  Serial.print("Encoder ADC Value: ");
-  Serial.println(mappedValue);
+  Serial.print("Right Value: ");
+  Serial.print(mappedValueRight);
+  
+  Serial.print("  Left Value: ");
+  Serial.println(mappedValueLeft);
   delay(100);
 
   
