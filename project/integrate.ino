@@ -25,6 +25,14 @@ int in4 = 10;   // IN4 pin (PA7) for Motor B direction -> left wheel
 int IR_SENSOR_PIN = 28; 
 
 ////////////////////////////////////////////////////
+// PID Control
+float kp, ki;
+float prev_err = 0.0;
+float integral = 0.0;
+float set, dt;
+int err;
+
+////////////////////////////////////////////////////
 // Setup Function
 void setup() {
   Serial.begin(115200);             // Initialize Serial COM Port with 115200 baud rate
@@ -84,9 +92,9 @@ void updateSensors() {
   Serial.print(" cm\t");
 
   if (ir_status == LOW) {
-    Serial.println("Object Detected");  // IR sensor detects an object
+    Serial.println("Detected");  // IR sensor detects an object
   } else {
-    Serial.println("No Object Detected");  // No object detected
+    Serial.println("Not Detected");  // No object detected
   }
 
   // Example condition: Take action based on sensor values
@@ -125,15 +133,78 @@ long getDistance(int trigPin, int echoPin) {
 }
 
 ////////////////////////////////////////////////////
-// Motor Control Function
-void controlMotors() {
+// Motor Control Functions
+void moveForward() {
   // Set motor speed
   analogWrite(enA, 255); // Full speed for right motor
   analogWrite(enB, 255); // Full speed for left motor
 
-  // Set motor directions
+  // both tires move forward
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH); 
   digitalWrite(in3, LOW);
   digitalWrite(in4, HIGH); 
+}
+
+void moveBackward(){
+  // Set motor speed
+  analogWrite(enA, 255); // Full speed for right motor
+  analogWrite(enB, 255); // Full speed for left motor
+
+  // both tires move backwards
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW); 
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);    
+}
+
+void turnRight(){
+  // Set motor speed
+  analogWrite(enA, 255); // Full speed for right motor
+  analogWrite(enB, 255); // Full speed for left motor
+
+  // right wheel rotates forward, left backwards
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW); 
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);     
+}
+
+void turnLeft(){
+  // Set motor speed
+  analogWrite(enA, 255); // Full speed for right motor
+  analogWrite(enB, 255); // Full speed for left motor
+
+  // left wheel rotates forward, right backwards
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH); 
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);     
+}
+
+void controlMotors() {
+  // Check IR sensor and left ultrasonic conditions
+  if (digitalRead(IR_SENSOR_PIN) == LOW && cm_left > 15) {
+    Serial.println("Action: Turn left");
+    turnLeft();
+  } else {
+    Serial.println("Action: Move forward");
+    moveForward();
+  }
+}
+
+///////////////////////////////////////////////////////////////////
+// PID Control
+float PID_Update(float setpoint, float measured_value, float dt) { 
+    float error = setpoint - measured_value; 
+    integral += error * dt;           // Integral term 
+    float derivative = (error - prev_err) / dt; // Derivative term 
+ 
+    // Calculate control output 
+    float output = (kp * err) + (ki * integral); //+ (pid->Kd * derivative); 
+     
+    // Save current error for next derivative calculation 
+    prev_err = error; 
+ 
+    return output; 
 }
