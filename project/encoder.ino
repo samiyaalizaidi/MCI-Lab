@@ -15,8 +15,9 @@ int in4 = 10;   // IN4 pin (PA7) for Motor B direction -> left wheel
 
 void setup() {
   Serial.begin(115200);     // Initialize Serial Monitor
-  pinMode(encoderPin, INPUT);
-    pinMode(enA, OUTPUT);
+  pinMode(encoderPinLeft, INPUT);
+  pinMode(encoderPinRight, INPUT);
+  pinMode(enA, OUTPUT);
   pinMode(enB, OUTPUT);
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
